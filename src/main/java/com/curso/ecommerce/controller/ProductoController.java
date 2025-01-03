@@ -43,7 +43,7 @@ public class ProductoController {
     public String save(Producto producto, @RequestParam("img") MultipartFile file) throws IOException {
         LOGGER.info("Este el objeto producto {}",producto);
         
-        Usuario u = new Usuario(1,"", "", "", "", "", "", "",);
+        Usuario u = new Usuario();
         producto.setUsuario(u);
 
         //imagen
