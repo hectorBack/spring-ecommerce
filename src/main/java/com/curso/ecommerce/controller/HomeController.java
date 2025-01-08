@@ -8,6 +8,7 @@ import com.curso.ecommerce.service.IDetalleOrdenService;
 import com.curso.ecommerce.service.IOrdenService;
 import com.curso.ecommerce.service.IUsuarioService;
 import com.curso.ecommerce.service.ProductoService;
+import jakarta.servlet.http.HttpSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,8 +49,14 @@ public class HomeController {
     Orden orden = new Orden();
 
     @GetMapping("/")
-    public String home(Model model){
+    public String home(Model model, HttpSession session){
+        log.info("Sesion del usuario: {}",session.getAttribute("idusuario"));
+
         model.addAttribute("productos",productoService.findAll());
+
+        //session
+        model.addAttribute("sesion",session.getAttribute("idusuario"));
+
         return "administrador/usuario/home";
     }
 
@@ -127,10 +134,13 @@ public class HomeController {
     }
 
     @GetMapping("/getCart")
-    public String getCart(Model model){
+    public String getCart(Model model, HttpSession session){
 
         model.addAttribute("cart", detalles);
         model.addAttribute("orden", orden);
+
+        //session
+        model.addAttribute("sesion", session.getAttribute("idusuario"));
         return "administrador/usuario/carrito";
 
     }
