@@ -1,14 +1,9 @@
 package com.curso.ecommerce.model;
 
 import java.util.Date;
+import java.util.List;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToOne;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
 @Entity
 @Table(name = "ordenes")
@@ -26,8 +21,8 @@ public class Orden {
 	@ManyToOne
 	private Usuario usuario;
 	
-	@OneToOne(mappedBy = "orden")
-	private DetalleOrden detalleOrden;
+	@OneToMany(mappedBy = "orden")
+	private List<DetalleOrden> detalleOrden;
 	
 	public Integer getId() {
 		return id;
@@ -66,16 +61,21 @@ public class Orden {
 	public void setUsuario(Usuario usuario) {
 		this.usuario = usuario;
 	}
-	
-	public DetalleOrden getDetalleOrden() {
+
+	public List<DetalleOrden> getDetalleOrden() {
 		return detalleOrden;
 	}
-	public void setDetalleOrden(DetalleOrden detalleOrden) {
+
+	public void setDetalleOrden(List<DetalleOrden> detalleOrden) {
 		this.detalleOrden = detalleOrden;
 	}
-	
+
+	public Orden(List<DetalleOrden> detalleOrden) {
+		this.detalleOrden = detalleOrden;
+	}
+
 	public Orden(Integer id, String numero, Date fechaCreacion, Date fechaRecibida, Double total, Usuario usuario,
-			DetalleOrden detalleOrden) {
+				 DetalleOrden detalleOrden) {
 		super();
 		this.id = id;
 		this.numero = numero;
@@ -83,7 +83,7 @@ public class Orden {
 		this.fechaRecibida = fechaRecibida;
 		this.total = total;
 		this.usuario = usuario;
-		this.detalleOrden = detalleOrden;
+
 	}
 	
 	public Orden() {
